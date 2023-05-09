@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .classForCaret {
+    position: relative;
+  }
+  .classForCaret::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 2px;
+    background-color: theme('backgroundColor.teal.400');
+    animation: theme('animation.ping');
+  }
+	@keyframes ping {
+		75%, 100% {
+			transform: scale(2);
+			opacity: 0;
+		}
+	}
+	
+}
