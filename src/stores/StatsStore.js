@@ -32,6 +32,5 @@ export const useStatsStore = defineStore('stats', {
     },
   },
   actions: {
-    AfterTypingIsCompleted() {},
   },
 });
