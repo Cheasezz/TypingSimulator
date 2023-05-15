@@ -1,162 +1,128 @@
 <script>
 import RefreshButton from '../components/RefreshButton.vue';
+import ModalWindow from '../components/ModalWindow.vue';
 import IconSpinner from './icons/IconSpinner.vue';
-import { getWordsList } from '../components/api';
+import { useTextStore } from '../stores/TextStore';
+import { useStatsStore } from '../stores/StatsStore';
+import { mapStores } from 'pinia';
 export default {
   components: {
     RefreshButton,
     IconSpinner,
-  },
-  props: {
-    wordsNumber: {
-      type: Number,
-    },
-  },
-  emits: {
-    'object-for-stats': (obj) => typeof obj === 'object',
+    ModalWindow,
   },
   data() {
     return {
-      wordsList: null,
       typedChar: '',
       charIndex: 0,
       loader: true,
       charactersArr: null,
-      objectForStats: {
-        typingIsOver: false,
-        charNumber: 0,
-        startTime: 0,
-        endTime: 0,
-        mistaks: 0,
-      },
+      focused: true,
     };
   },
+  computed: {
+    ...mapStores(useTextStore, useStatsStore),
+  },
   methods: {
-    async definitionWordsList(wordsNumber) {
-      // Загружаем список слов и присвиваем wordsList
-      this.wordsList = await getWordsList(wordsNumber);
-      // После загрузки списка слов, выключаем спиннер
-      this.loader = false;
-      this.inputFocus();
-    },
     inputFocus() {
-      this.objectForStats.typingIsOver ? this.$refs.input.blur() : this.$refs.input.focus();
+      this.statsStore.typingIsOver ? this.$refs.input.blur() : this.$refs.input.focus();
     },
-    refreshObjectForStats() {
-			for(let key in this.objectForStats){
-				key!=='typingIsOver'?this.objectForStats[key]=0:this.objectForStats[key]=false
-			}
+    toggleLoader() {
+      this.loader = !this.loader;
     },
-    actionsAfterTypingIsCompleted() {
-      this.objectForStats.typingIsOver = true;
-      this.objectForStats.endTime = new Date();
-      this.objectForStats.charNumber = this.charactersArr.length;
-      this.$emit('object-for-stats', this.objectForStats);
-      this.inputFocus();
+    actionsAfterStartTyping() {
+      this.charactersArr = this.$refs.kbd;
+      this.statsStore.startTime = new Date();
+      this.statsStore.charNumber = this.charactersArr.length;
     },
-    async typingProcess(newValue, oldValue) {
-      // const characters = this.$refs.kbd;
-      // Этот if сработает после старта печати
-      if (oldValue === '') {
-        this.objectForStats.startTime = new Date();
-        // референс на список дом элиментов kbd (каждый содержит букву/пробел)
-        this.charactersArr = this.$refs.kbd;
-      }
-      // последний введенный символ
-      let splitedTypedChar = [...newValue][this.charIndex];
-
-      if (newValue < oldValue) {
-        if (this.charIndex === 0) {
-          // В эту ветку условий попадаем после refreshText
-          await this.definitionWordsList(this.wordsNumber);
-          // Убираем подсветку со всех символов
-          this.charactersArr.forEach((kbd) =>
-            kbd.classList.remove('text-teal-400', 'text-red-300')
-          );
-        } else {
-          // Условие, которое выполняется при удалении символов (курсор перейдет на 1 символ назад и удалится подсветка)
-          this.charIndex--;
-          this.charactersArr[this.charIndex].classList.remove('text-teal-400', 'text-red-300');
-        }
+    removeColorFromChar() {
+      // Условие выполняется при refreshText
+      if (this.charIndex === 0) return;
+      this.charIndex--;
+      this.charactersArr[this.charIndex]?.classList.remove('text-teal-400', 'text-red-300');
+    },
+    coloringChar() {
+      // Подсветка для правильно и неправильно введеных символов
+      if (this.charactersArr[this.charIndex]?.textContent === this.typedChar[this.charIndex]) {
+        this.charactersArr[this.charIndex]?.classList.add('text-teal-400');
       } else {
-        // else выполняется каждый раз когда увеличивается инпут (набирается текст)
-        // Подсветка для правильно и неправильно введеных символов
-        if (this.charactersArr[this.charIndex].textContent === splitedTypedChar) {
-          this.charactersArr[this.charIndex].classList.add('text-teal-400');
-        } else {
-          // Увеличиваем количество ошибок на один
-          this.objectForStats.mistaks++;
-          this.charactersArr[this.charIndex].classList.add('text-red-300');
-        }
-
-        this.charIndex++;
+        this.statsStore.mistaks++;
+        this.charactersArr[this.charIndex]?.classList.add('text-red-300');
       }
+      this.charIndex++;
+    },
+    setCaretAroundCurrentChar() {
+      this.charactersArr.forEach((kbd) => kbd.classList.remove('classForCaret'));
+      this.charactersArr[this.charIndex]?.classList.add('classForCaret');
+    },
+    typingProcess(newValue, oldValue) {
+      oldValue === '' ? this.actionsAfterStartTyping() : null;
+
+      newValue < oldValue ? this.removeColorFromChar() : this.coloringChar();
+
       // Выполнится при введении последнего символа
       if (this.charactersArr.length - 1 < this.charIndex) {
-        this.actionsAfterTypingIsCompleted();
+        this.statsStore.$patch({ typingIsOver: true, endTime: new Date() });
         return;
       }
-      // После всех условий, в любом случае, убирается курсор у всех символо, и сразуе ставится только у нынешнего
-      this.charactersArr.forEach((kbd) => kbd.classList.remove('classForCaret'));
-      this.charactersArr[this.charIndex].classList.add('classForCaret');
+      this.setCaretAroundCurrentChar();
     },
-    // Параметры нужны для вотчера wordsNumber. Выглядит не очень, да и похоже на костыль,
-    // но по другому я пока не могу решить задачу.
-    // Стандартные значения нужны потому что без аргументов в функции, newValue и oldValue равны undefined
-    refreshText(newValue = 1, oldValue = 0) {
-      // Появляется спинер
-      this.loader = true;
-      // Чистим объект статистики.
-      this.refreshObjectForStats();
-      this.$emit('object-for-stats', this.objectForStats);
-      // Если изменяется количество слов и инпут пустой.()
-      if (newValue !== oldValue && this.typedChar === '') {
-        this.definitionWordsList(this.wordsNumber);
-        return;
-      }
-      // Изменения typeChar запустит вотчер (а в нем запускается typingProcess).
-      // if выше, был написан, потому что, если typedChar изначально == '', то вотчер не запустится
-      this.typedChar = '';
-      // Изменение charIndex позволит пройтись по специально заготовленному для него условию в typingProcess
-      this.charIndex = 0;
+
+    refreshText() {
+      this.$nextTick(() => this.statsStore.$reset()).then(async () => {
+        this.toggleLoader();
+        this.charIndex = 0;
+        this.typedChar = '';
+        await this.textStore.getWords();
+        this.toggleLoader();
+        this.inputFocus();
+      });
     },
   },
-  // После создания и вставки дом узлов
-  mounted() {
-    // Получаем список слов
-    this.definitionWordsList(this.wordsNumber);
-    // Слушаем клавиши для фокусировки на инпут
+  async mounted() {
+    // Вотчер для стора
+    this.textStore.$subscribe((mutation) => {
+      if (mutation.events.key === 'selectedWordsNumber') {
+        this.refreshText();
+      }
+    });
+    await this.textStore.getWords();
+    this.toggleLoader();
     document.addEventListener('keyup', this.inputFocus);
-    // Первичная фокусировка
     this.inputFocus();
   },
-  // Отписываемся от событий перед удалением компонента
   beforeUnmount() {
     document.removeEventListener('keyup', this.inputFocus);
   },
   watch: {
-    // Вотчер запускается при изменение количества слов
-    wordsNumber(newValue, oldValue) {
-      this.refreshText(newValue, oldValue);
-    },
-    // Запускается при изменении инпута
     typedChar(newValue, oldValue) {
-      // nextTick отрисовывает изменения сразу, после изменеия.
-      // Без него символы подсвечивались по два-три(копились изменения перед рендером)
-      this.$nextTick().then(this.typingProcess(newValue, oldValue));
+      this.typingProcess(newValue, oldValue);
     },
   },
 };
 </script>
-<template v-if="wordsList">
-  <input v-model="typedChar" type="text" ref="input" class="absolute w-0 h-0" />
+<template v-if="textStore.wordsList">
+  <input
+    v-model="typedChar"
+    @focus="focused = true"
+    @blur="focused = false"
+    type="text"
+    ref="input"
+    class="absolute w-0 h-0"
+  />
   <IconSpinner v-if="loader" class="absolute inset-x-1/2 inset-y-1/2 animate-spin" />
   <div
-    v-if="!loader && !objectForStats.typingIsOver"
+    v-if="!loader && !statsStore.typingIsOver"
     @click="inputFocus"
-    class="w-5/6 flex flex-wrap"
+    class="w-5/6 flex flex-wrap relative"
   >
-    <div v-for="(word, wordIndex) of wordsList" :key="wordIndex" class="m-2 text-xl opacity-60">
+    <ModalWindow v-if="!focused" />
+
+    <div
+      v-for="(word, wordIndex) of textStore.wordsList"
+      :key="wordIndex"
+      class="m-2 text-xl opacity-60"
+    >
       <kbd
         v-for="(character, characterIndex) of word"
         :key="characterIndex"
@@ -170,9 +136,9 @@ export default {
     </div>
   </div>
   <RefreshButton
-    @click="refreshText()"
+    @click="refreshText"
     :class="{
-      'animate-spin': objectForStats.typingIsOver,
+      'animate-spin': statsStore.typingIsOver,
     }"
   />
 </template>

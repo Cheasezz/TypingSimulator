@@ -1,18 +1,19 @@
 <script>
+import { mapStores } from 'pinia'
+import { useTextStore } from '../stores/TextStore';
+
 export default {
-  emits: {
-    'selected-words-number': (number) => typeof number === 'number',
-  },
+
   data() {
     return {
-      selectedWordsNumber: 25,
-      arrayWithWordsNumbers: [10, 25, 50, 100],
     };
   },
+	computed:{
+		...mapStores(useTextStore)
+	},
   methods: {
     selectWordsNumber(number) {
-      this.selectedWordsNumber = number;
-      this.$emit('selected-words-number', this.selectedWordsNumber);
+      this.textStore.selectedWordsNumber=number;
     },
   },
 };
@@ -22,11 +23,11 @@ export default {
     <h1 class="text-lg">Choose words number</h1>
     <div class="flex gap-5">
       <button
-        v-for="(number, index) of arrayWithWordsNumbers"
+        v-for="(number, index) of textStore.arrayWithWordsNumbers"
         :key="index"
         @click="selectWordsNumber(number)"
         :class="{
-          'text-teal-400': number === selectedWordsNumber,
+          'text-teal-400': number === textStore.selectedWordsNumber,
         }"
         type="button"
       >

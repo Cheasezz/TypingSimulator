@@ -1,35 +1,9 @@
 <script>
+import { useStatsStore } from '../stores/StatsStore';
+import { mapStores } from 'pinia';
 export default {
-  props: {
-    objectForStats: {
-      type: Object,
-    },
-  },
   computed: {
-    deltaTime() {
-      return this.objectForStats.endTime.getTime() - this.objectForStats.startTime.getTime();
-    },
-    deltaTimeInSec() {
-      return this.deltaTime / 1000;
-    },
-    deltaTimeInMin() {
-      return this.deltaTimeInSec / 60;
-    },
-    calculateCPM() {
-      return (this.objectForStats.charNumber / this.deltaTimeInMin).toFixed();
-    },
-    formatedSec() {
-      return (this.deltaTimeInSec % 60).toFixed();
-    },
-    formatedMin() {
-      return this.deltaTimeInMin.toFixed();
-    },
-    mistaksInProcent() {
-      return (this.objectForStats.mistaks / this.objectForStats.charNumber) * 100;
-    },
-    calculateAccuracy() {
-      return (100 - this.mistaksInProcent).toFixed(2);
-    },
+		...mapStores(useStatsStore),
   },
 
 };
@@ -44,25 +18,25 @@ export default {
         <div class="px-4 py-4 flex justify-between items-center">
           <dt class="text-sm font-medium ">Time</dt>
           <dd class="text-sm text-teal-400">
-            {{ formatedMin }} min {{ formatedSec }} sec
+            {{ statsStore.formatedMin }} min {{ statsStore.formatedSec }} sec
           </dd>
         </div>
         <div class="px-4 py-4 flex justify-between items-center">
           <dt class="text-sm font-medium ">CPM</dt>
           <dd class="text-sm  text-teal-400">
-            {{ calculateCPM }}
+            {{ statsStore.calculateCPM }}
           </dd>
         </div>
         <div class="px-4 py-4 flex justify-between items-center">
           <dt class="text-sm font-medium ">Accuracy</dt>
           <dd class="text-sm text-teal-400">
-            {{ calculateAccuracy }} %
+            {{ statsStore.calculateAccuracy }} %
           </dd>
         </div>
         <div class="px-4 py-4 flex justify-between items-center">
           <dt class="text-sm font-medium ">Mistaks</dt>
           <dd class="text-sm text-red-300 ">
-            {{ objectForStats.mistaks }}
+            {{ statsStore.mistaks }}
           </dd>
         </div>
       </dl>

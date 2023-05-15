@@ -4,7 +4,7 @@ export async function getWordsList(wordsNumber){
 	// Ответ - это массив, у которого под индексом [0] случайная строка
 	// Преобразуем плученный данные. Разделяем по пробельным значениям
 	// wordsNumber - лимит слов
-	return data[0].split(/\s+/gi, wordsNumber).map((word,index) => {
+	return data[0].split(' ', wordsNumber).map((word,index) => {
 		// В полученном новом массиве проходимся по каждому слову и убираем ненужные символы.
 		word = word.replace(/[\s.,%]/gi, '');
 		// К каждому слову, кроме последнего, добавляем пробел в конце.
