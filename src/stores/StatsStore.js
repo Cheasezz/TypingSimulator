@@ -1,9 +1,10 @@
 import { defineStore } from 'pinia';
+import { useTextStore } from './TextStore';
 
 export const useStatsStore = defineStore('stats', {
   state: () => ({
     typingIsOver: false,
-    charNumber: 0,
+    charsNumbers: 0,
     startTime: 0,
     endTime: 0,
     mistaks: 0,
@@ -12,19 +13,19 @@ export const useStatsStore = defineStore('stats', {
     deltaTimeInSec(state) {
       return (state.endTime - state.startTime) / 1000;
     },
-		deltaTimeInMin() {
+    deltaTimeInMin() {
       return this.deltaTimeInSec / 60;
     },
-		calculateCPM(state) {
-      return (state.charNumber / this.deltaTimeInMin).toFixed();
+    calculateCPM(state) {
+      return (state.charsNumbers / this.deltaTimeInMin).toFixed();
     },
-		mistaksInProcent(state) {
-      return (state.mistaks / state.charNumber) * 100;
+    mistaksInProcent(state) {
+      return (state.mistaks / state.charsNumbers) * 100;
     },
-		calculateAccuracy() {
+    calculateAccuracy() {
       return (100 - this.mistaksInProcent).toFixed(2);
     },
-		formatedSec() {
+    formatedSec() {
       return (this.deltaTimeInSec % 60).toFixed();
     },
     formatedMin() {
@@ -32,5 +33,14 @@ export const useStatsStore = defineStore('stats', {
     },
   },
   actions: {
+    afterStartTyping() {
+			const textStore = useTextStore()
+      this.startTime = new Date();
+      this.charsNumbers = textStore.charsNumbers
+    },
+    afterTypingIsOver() {
+      this.typingIsOver = true;
+      this.endTime = new Date();
+    },
   },
 });
