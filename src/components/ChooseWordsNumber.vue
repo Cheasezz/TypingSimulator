@@ -13,7 +13,7 @@ export default {
 	},
   methods: {
     selectWordsNumber(number) {
-      this.textStore.selectedWordsNumber=number;
+      this.textStore.$patch({selectedWordsNumber:number});
     },
   },
 };

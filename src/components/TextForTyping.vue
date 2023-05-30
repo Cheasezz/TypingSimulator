@@ -2,15 +2,16 @@
 import { useTextStore } from '../stores/TextStore';
 import { useStatsStore } from '../stores/StatsStore';
 import { mapStores } from 'pinia';
+import { watch } from 'vue';
 export default {
   data() {
     return {
-			colorObj: {},
-		};
+      colorObj: {},
+    };
   },
   computed: {
     ...mapStores(useTextStore, useStatsStore),
-		caretClass() {
+    caretClass() {
       return (wordIndex, characterIndex) => {
         const idxOfChar = this.getCharacterIndex(wordIndex, characterIndex);
         return idxOfChar === this.textStore.idxOfTypedChar ? 'classForCaret' : '';
@@ -18,7 +19,7 @@ export default {
     },
   },
   methods: {
-		getCharacterIndex(wordIndex, characterIndex) {
+    getCharacterIndex(wordIndex, characterIndex) {
       const key = `${wordIndex}-${characterIndex}`;
       return this.textStore.indexMap[key];
     },
@@ -47,18 +48,17 @@ export default {
       const correctChar = this.textStore.isCorrect;
       !correctChar ? (this.colorObj[index][red] = true) : (this.colorObj[index][green] = true);
     },
-	},
+  },
   mounted() {
-		this.textStore.$subscribe((mutation) => {
-      if (mutation.events.key === 'typedChars') {
-        const newVal = mutation.events.newValue;
-        const oldVal = mutation.events.oldValue;
+    watch(
+      () => this.textStore.typedChars,
+      (newVal, oldVal) => {
         this.updateColorObj(newVal, oldVal);
         this.textStore.typingProcess(newVal, oldVal);
       }
-    });
+    );
     this.createColorObj();
-	},
+  },
 };
 </script>
 

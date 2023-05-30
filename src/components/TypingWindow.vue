@@ -36,7 +36,7 @@ export default {
   async mounted() {
     // Вотчер для стора
     this.textStore.$subscribe((mutation) => {
-      if (mutation.events.key === 'selectedWordsNumber') {
+      if (mutation.payload?.hasOwnProperty('selectedWordsNumber')) {
         this.refreshText();
       }
     });
