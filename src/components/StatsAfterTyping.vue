@@ -1,12 +1,12 @@
 <script>
-import { useStatsStore } from '../stores/StatsStore';
-import { mapStores } from 'pinia';
+import { mapStores } from 'pinia'
+import useStatsStore from '../stores/StatsStore'
+
 export default {
   computed: {
-		...mapStores(useStatsStore),
+    ...mapStores(useStatsStore),
   },
-
-};
+}
 </script>
 <template>
   <div class="flex flex-col items-center">
@@ -16,26 +16,24 @@ export default {
     <div class="mt-2">
       <dl class="w-52">
         <div class="px-4 py-4 flex justify-between items-center">
-          <dt class="text-sm font-medium ">Time</dt>
+          <dt class="text-sm font-medium">Time</dt>
           <dd class="text-sm text-teal-400">
             {{ statsStore.formatedMin }} min {{ statsStore.formatedSec }} sec
           </dd>
         </div>
         <div class="px-4 py-4 flex justify-between items-center">
-          <dt class="text-sm font-medium ">CPM</dt>
-          <dd class="text-sm  text-teal-400">
+          <dt class="text-sm font-medium">CPM</dt>
+          <dd class="text-sm text-teal-400">
             {{ statsStore.calculateCPM }}
           </dd>
         </div>
         <div class="px-4 py-4 flex justify-between items-center">
-          <dt class="text-sm font-medium ">Accuracy</dt>
-          <dd class="text-sm text-teal-400">
-            {{ statsStore.calculateAccuracy }} %
-          </dd>
+          <dt class="text-sm font-medium">Accuracy</dt>
+          <dd class="text-sm text-teal-400">{{ statsStore.calculateAccuracy }} %</dd>
         </div>
         <div class="px-4 py-4 flex justify-between items-center">
-          <dt class="text-sm font-medium ">Mistaks</dt>
-          <dd class="text-sm text-red-300 ">
+          <dt class="text-sm font-medium">Mistaks</dt>
+          <dd class="text-sm text-red-300">
             {{ statsStore.mistaks }}
           </dd>
         </div>

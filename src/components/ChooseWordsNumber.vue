@@ -1,22 +1,20 @@
 <script>
 import { mapStores } from 'pinia'
-import { useTextStore } from '../stores/TextStore';
+import useTextStore from '../stores/TextStore'
 
 export default {
-
   data() {
-    return {
-    };
+    return {}
   },
-	computed:{
-		...mapStores(useTextStore)
-	},
+  computed: {
+    ...mapStores(useTextStore),
+  },
   methods: {
     selectWordsNumber(number) {
-      this.textStore.$patch({selectedWordsNumber:number});
+      this.textStore.$patch({ selectedWordsNumber: number })
     },
   },
-};
+}
 </script>
 <template>
   <div class="flex flex-col items-center gap-6 text-2xl">
@@ -25,11 +23,11 @@ export default {
       <button
         v-for="(number, index) of textStore.arrayWithWordsNumbers"
         :key="index"
-        @click="selectWordsNumber(number)"
         :class="{
           'text-teal-400': number === textStore.selectedWordsNumber,
         }"
         type="button"
+        @click="selectWordsNumber(number)"
       >
         {{ number }}
       </button>

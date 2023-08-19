@@ -16,11 +16,11 @@
     background-color: theme('backgroundColor.teal.400');
     animation: theme('animation.ping');
   }
-	@keyframes ping {
-		75%, 100% {
-			transform: scale(2);
-			opacity: 0;
-		}
-	}
-	
+  @keyframes ping {
+    75%,
+    100% {
+      transform: scale(2);
+      opacity: 0;
+    }
+  }
 }

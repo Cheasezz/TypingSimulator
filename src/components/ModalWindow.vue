@@ -1,5 +1,5 @@
 <script>
-export default {};
+export default {}
 </script>
 <template>
   <div class="absolute z-10 w-full h-full backdrop-blur-sm text-center">
