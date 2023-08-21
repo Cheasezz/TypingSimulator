@@ -13,7 +13,9 @@ module.exports = {
     ecmaVersion: 'latest',
   },
   rules: {
-    'no-plusplus': ['error', { allowForLoopAfterthoughts: true }],
+    'no-plusplus': 'off',
+    'no-console': 'error',
+    'no-debugger': 'error',
     'vue/max-attributes-per-line': [
       'error',
       {
@@ -33,8 +35,8 @@ module.exports = {
         baseIndent: 1,
         closeBracket: 0,
         alignAttributesVertically: true,
-        ignores: []
-      }
-     ],
+        ignores: [],
+      },
+    ],
   },
 }

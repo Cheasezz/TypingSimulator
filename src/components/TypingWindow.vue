@@ -70,7 +70,7 @@ export default {
       class="absolute w-0 h-0"
       @blur="focused = false"
     />
-    <ModalWindow v-if="!focused" />s
+    <ModalWindow v-if="!focused" />
     <TextForTyping />
   </div>
   <RefreshButton
