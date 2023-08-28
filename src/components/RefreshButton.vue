@@ -1,14 +1,12 @@
 <script>
-import IconRefresh from './icons/IconRefresh.vue'
+import RefreshI from '@/shared/ui/icons/RefreshI.vue'
 
 export default {
   components: {
-    IconRefresh,
+    RefreshI,
   },
 }
 </script>
 <template>
-  <button type="button"><IconRefresh class="fill-teal-400" /></button>
+  <button type="button"><RefreshI class="fill-teal-400" /></button>
 </template>
-
-<style lang="scss" scoped></style>

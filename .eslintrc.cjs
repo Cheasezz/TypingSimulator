@@ -12,6 +12,11 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 'latest',
   },
+  settings: {
+    'import/resolver': {
+      alias: [['@', './src']],
+    },
+  },
   rules: {
     'no-plusplus': 'off',
     'no-console': 'error',

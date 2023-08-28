@@ -1,16 +1,16 @@
 <script>
 import { mapStores } from 'pinia'
-import useTextStore from '../stores/TextStore'
-import useStatsStore from '../stores/StatsStore'
-import TextForTyping from './TextForTyping.vue'
-import RefreshButton from './RefreshButton.vue'
-import ModalWindow from './ModalWindow.vue'
-import IconSpinner from './icons/IconSpinner.vue'
+import useTextStore from '@/stores/TextStore'
+import useStatsStore from '@/stores/StatsStore'
+import TextForTyping from '@/components/TextForTyping.vue'
+import RefreshButton from '@/components/RefreshButton.vue'
+import ModalWindow from '@/shared/ui/modalWindow/ModalWindow.vue'
+import SpinnerI from '@/shared/ui/icons/SpinnerI.vue'
 
 export default {
   components: {
     RefreshButton,
-    IconSpinner,
+    SpinnerI,
     ModalWindow,
     TextForTyping,
   },
@@ -53,7 +53,7 @@ export default {
 }
 </script>
 <template>
-  <IconSpinner
+  <SpinnerI
     v-if="!textStore.isLoaded"
     class="absolute inset-x-1/2 inset-y-1/2 animate-spin"
   />
@@ -70,7 +70,10 @@ export default {
       class="absolute w-0 h-0"
       @blur="focused = false"
     />
-    <ModalWindow v-if="!focused" />
+    <ModalWindow
+      v-if="!focused"
+      :text="'Click here or start typing to focus'"
+    />
     <TextForTyping />
   </div>
   <RefreshButton

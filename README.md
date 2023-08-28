@@ -1,4 +1,4 @@
-# Typing simulator for New Gen Vision
+# Typing simulator
 
 Итоговый результат можно посмотреть на https://typing-simulator.web.app/ (это firebae hosting).
 

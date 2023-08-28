@@ -1,9 +1,9 @@
 <script>
 import { mapState } from 'pinia'
-import ChooseWordsNumber from './components/ChooseWordsNumber.vue'
-import TypingWindow from './components/TypingWindow.vue'
-import StatsAfterTyping from './components/StatsAfterTyping.vue'
-import useStatsStore from './stores/StatsStore'
+import ChooseWordsNumber from '@/components/ChooseWordsNumber.vue'
+import TypingWindow from '@/components/TypingWindow.vue'
+import StatsAfterTyping from '@/components/StatsAfterTyping.vue'
+import useStatsStore from '@/stores/StatsStore'
 
 export default {
   components: {
@@ -29,4 +29,4 @@ export default {
   </main>
 </template>
 
-<style lang="scss" scoped></style>
+<style></style>
