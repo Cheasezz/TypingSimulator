@@ -4,13 +4,12 @@ import useTextStore from '@/stores/TextStore'
 import useStatsStore from '@/stores/StatsStore'
 import TextForTyping from '@/components/TextForTyping.vue'
 import RefreshButton from '@/components/RefreshButton.vue'
-import ModalWindow from '@/shared/ui/modalWindow/ModalWindow.vue'
-import SpinnerI from '@/shared/ui/icons/SpinnerI.vue'
+import { ModalWindow, IconSpinner } from '@/shared/ui'
 
 export default {
   components: {
     RefreshButton,
-    SpinnerI,
+    IconSpinner,
     ModalWindow,
     TextForTyping,
   },
@@ -53,7 +52,7 @@ export default {
 }
 </script>
 <template>
-  <SpinnerI
+  <IconSpinner
     v-if="!textStore.isLoaded"
     class="absolute inset-x-1/2 inset-y-1/2 animate-spin"
   />

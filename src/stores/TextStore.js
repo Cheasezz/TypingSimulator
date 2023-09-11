@@ -49,6 +49,7 @@ const useTextStore = defineStore('text', {
         return [...clearWord]
       })
       this.getCharsIndexes()
+
       this.isLoaded = true
     },
     getCharsIndexes() {

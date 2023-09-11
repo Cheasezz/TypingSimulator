@@ -35,13 +35,11 @@ export default {
       return this.textStore.indexMap[key]
     },
     createColorObj() {
-      let i = 0
-      while (i < this.textStore.charsNumbers) {
+      for (let i = 0; i < this.textStore.charsNumbers; i++) {
         this.colorObj[i] = {
           'text-teal-400': false,
           'text-red-300': false,
         }
-        i += 1
       }
     },
     updateColorObj(newVal, oldVal) {
