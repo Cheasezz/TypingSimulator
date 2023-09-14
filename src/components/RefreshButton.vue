@@ -1,5 +1,5 @@
 <script>
-import { IconRefresh } from '@/shared/ui'
+import { IconRefresh } from '@/shared/ui/icons'
 export default {
   components: {
     IconRefresh,

@@ -4,7 +4,8 @@ import useTextStore from '@/stores/TextStore'
 import useStatsStore from '@/stores/StatsStore'
 import TextForTyping from '@/components/TextForTyping.vue'
 import RefreshButton from '@/components/RefreshButton.vue'
-import { ModalWindow, IconSpinner } from '@/shared/ui'
+import { IconSpinner } from '@/shared/ui/icons'
+import { ModalWindow } from '@/shared/ui/modalWindow'
 
 export default {
   components: {

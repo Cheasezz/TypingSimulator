@@ -1,8 +1,7 @@
 <script setup>
 import { useInputTextStore } from '@/entities/inputingText'
-import { useVisualizationStore } from '@/features/typingTextVisualization/model/model'
-// import { useTextStore } from '@/entities/text';
-import { ModalWindow } from '@/shared/ui'
+import { useVisualizationStore } from '@/features/typingTextVisualization'
+import { ModalWindow } from '@/shared/ui/modalWindow'
 import { storeToRefs } from 'pinia'
 
 const inputTextStore = useInputTextStore()

@@ -11,5 +11,6 @@
   ],
   "editor.formatOnSave": false,
   // Runs Prettier, then ESLint
-  "editor.codeActionsOnSave": ["source.formatDocument", "source.fixAll.eslint"]
+  "editor.codeActionsOnSave": ["source.formatDocument", "source.fixAll.eslint"],
+  "cody.codebase": "github.com/sourcegraph/sourcegraph"
 }

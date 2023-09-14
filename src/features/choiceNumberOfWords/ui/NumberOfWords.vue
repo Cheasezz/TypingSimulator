@@ -1,5 +1,5 @@
 <script setup>
-import { BaseButton } from '@/shared/ui'
+import { BaseButton } from '@/shared/ui/baseButton'
 import { useSelectWordsNumber } from '../model/selectWordsNumber'
 
 const arrWithWordsNumbers = [10, 25, 50, 100]

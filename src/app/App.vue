@@ -1,11 +1,5 @@
-<script>
-import TypingSimulator from '@/pages/TypingSimulator.vue'
-
-export default {
-  components: {
-    TypingSimulator,
-  },
-}
+<script setup>
+import { TypingSimulator } from '@/pages'
 </script>
 <template>
   <TypingSimulator />

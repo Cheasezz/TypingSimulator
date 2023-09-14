@@ -1,2 +1,2 @@
-import TextForTyping from './TextForTyping.vue'
+import TextForTyping from './ui/TextForTyping.vue'
 export { TextForTyping }

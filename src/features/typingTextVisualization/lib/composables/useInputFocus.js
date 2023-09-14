@@ -1,6 +1,6 @@
 import { useInputTextStore } from '@/entities/inputingText'
 import { storeToRefs } from 'pinia'
-import { onBeforeUnmount, onMounted, ref } from 'vue'
+import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
 
 export function useInputFocus() {
   const inputTextStore = useInputTextStore()
@@ -10,9 +10,18 @@ export function useInputFocus() {
   function inputFocus() {
     isTyping.value = true
   }
+  watch(
+    isTyping,
+    () => {
+      if (isTyping.value) {
+        input.value?.$refs.input.focus()
+      }
+    },
+    { flush: 'post' },
+  )
   onMounted(() => {
-    inputFocus()
     input.value.$refs.input.focus()
+    inputFocus()
     document.addEventListener('keyup', inputFocus)
   })
   onBeforeUnmount(() => {

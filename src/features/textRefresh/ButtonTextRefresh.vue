@@ -1,5 +1,6 @@
 <script setup>
-import { BaseButton, IconRefresh } from '@/shared/ui'
+import { IconRefresh } from '@/shared/ui/icons'
+import { BaseButton } from '@/shared/ui/baseButton'
 import { refreshText } from './model/refreshText'
 </script>
 

@@ -1,6 +1,6 @@
 <script setup>
 import { entityText } from '@/entities/text'
-import { IconSpinner } from '@/shared/ui'
+import { IconSpinner } from '@/shared/ui/icons'
 import { ButtonTextRefresh } from '@/features/textRefresh'
 import { NumberOfWords } from '@/features/choiceNumberOfWords'
 import { TextHideInput } from '@/features/typingTextVisualization'

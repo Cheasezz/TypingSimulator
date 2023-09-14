@@ -1,5 +1,5 @@
 <script setup>
-import { HideInput } from '@/shared/ui'
+import { HideInput } from '@/shared/ui/hideInput'
 import { useInputFocus } from '../lib/composables/useInputFocus'
 import { onBeforeMount, watch } from 'vue'
 import { useVisualizationStore } from '../model/model'
@@ -14,20 +14,8 @@ onBeforeMount(() => {
   createVisualizationClassObj()
 })
 
-watch(
-  typedChars,
-  (newVal, oldVal) => {
-    // if (oldVal === '') console.log(1111)
-
-    if (typingIsOver.value) return
-    updateClassObj(newVal, oldVal)
-  },
-  { flush: 'post' },
-)
-watch(isTyping, () => {
-  if (isTyping.value) {
-    input.value?.$refs.input.focus()
-  }
+watch(typedChars, (newVal, oldVal) => {
+  updateClassObj(newVal, oldVal)
 })
 </script>
 

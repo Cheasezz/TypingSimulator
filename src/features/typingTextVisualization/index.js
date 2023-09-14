@@ -1,2 +1,3 @@
 import TextHideInput from './ui/TextHideInput.vue'
-export { TextHideInput }
+import { useVisualizationStore } from './model/model'
+export { TextHideInput, useVisualizationStore }
