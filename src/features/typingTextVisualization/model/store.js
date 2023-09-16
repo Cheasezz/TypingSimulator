@@ -5,9 +5,10 @@ import { computed } from 'vue'
 import { addCaret, removeCaret } from '../lib/helpers/caret'
 import { addColor, removeColor } from '../lib/helpers/coloring'
 
-export const useVisualizationStore = defineStore('vizual', () => {
+export const useVisualizationStore = defineStore('visual', () => {
   const inputTextStore = useInputTextStore()
   const textStore = useTextStore()
+
   const { flatedSepareteCharsArr, classObj, indexOfClassObj } = storeToRefs(textStore)
   const { idxOfLastTypedChar, lastTypedChar } = storeToRefs(inputTextStore)
 
@@ -15,7 +16,7 @@ export const useVisualizationStore = defineStore('vizual', () => {
     () => lastTypedChar.value === flatedSepareteCharsArr.value[idxOfLastTypedChar.value],
   )
   const typingIsOver = computed(
-    () => idxOfLastTypedChar.value > flatedSepareteCharsArr.value.length - 1,
+    () => idxOfLastTypedChar.value === flatedSepareteCharsArr.value?.length - 1,
   )
 
   function createVisualizationClassObj() {
@@ -42,6 +43,7 @@ export const useVisualizationStore = defineStore('vizual', () => {
 
   return {
     typingIsOver,
+    correctChar,
     createVisualizationClassObj,
     updateClassObj,
   }

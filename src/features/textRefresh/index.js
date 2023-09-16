@@ -1,2 +1,2 @@
-import ButtonTextRefresh from './ButtonTextRefresh.vue'
+import ButtonTextRefresh from './ui/ButtonTextRefresh.vue'
 export { ButtonTextRefresh }

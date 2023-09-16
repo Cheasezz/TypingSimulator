@@ -11,7 +11,9 @@ export const useTextStore = defineStore('text', () => {
   const classObj = ref(null)
   const wordsInSeparateChars = ref(null)
 
-  const flatedSepareteCharsArr = computed(() => wordsInSeparateChars.value.flat(1))
+  const flatedSepareteCharsArr = computed(() =>
+    wordsInSeparateChars.value === null ? null : wordsInSeparateChars.value.flat(1),
+  )
   const indexOfClassObj = computed(() => Object.keys(classObj.value))
 
   async function getWords() {

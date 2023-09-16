@@ -1,8 +1,8 @@
 <script setup>
 import { BaseButton } from '@/shared/ui/baseButton'
-import { useSelectWordsNumber } from '../model/selectWordsNumber'
+import { useSelectWordsNumber } from '../lib/composables/selectWordsNumber'
+import { arrWithWordsNumbers } from '../model/constants'
 
-const arrWithWordsNumbers = [10, 25, 50, 100]
 const { selectedWordsNumber, selectWordsNumber } = useSelectWordsNumber()
 </script>
 

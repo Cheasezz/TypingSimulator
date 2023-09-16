@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onBeforeMount, ref } from 'vue'
 import { useTextStore } from '../model/store'
 import { storeToRefs } from 'pinia'
 
@@ -8,7 +8,7 @@ const { wordsInSeparateChars, classObj, isLoaded } = storeToRefs(textStore)
 const { getWords } = textStore
 const fetchErr = ref(null)
 
-onMounted(async () => {
+onBeforeMount(async () => {
   try {
     await getWords()
   } catch (error) {

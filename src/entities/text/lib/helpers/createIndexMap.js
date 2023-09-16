@@ -1,4 +1,5 @@
-// На выходе classObj - {0-1:null,0-2:null,1-0:null}
+// На выходе indexMap - {0-1: null, 0-2: null, 1-0: null}
+// Или {0-1: 0, 0-2: 1, 1-0: 3}
 // ключ - двумерный индекс, значение - null
 export function createIndexMap(wordsList, forClass) {
   const indexMap = {}

@@ -8,17 +8,11 @@ export function useInputFocus() {
   const input = ref(null)
 
   function inputFocus() {
-    isTyping.value = true
+    if (!isTyping.value) isTyping.value = true
   }
-  watch(
-    isTyping,
-    () => {
-      if (isTyping.value) {
-        input.value?.$refs.input.focus()
-      }
-    },
-    { flush: 'post' },
-  )
+  watch(isTyping, () => {
+    if (isTyping.value) input.value?.$refs.input.focus()
+  })
   onMounted(() => {
     input.value.$refs.input.focus()
     inputFocus()
