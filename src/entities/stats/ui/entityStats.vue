@@ -2,6 +2,7 @@
 import { storeToRefs } from 'pinia'
 import { useStatsStore } from '../model/store'
 import { useVisualizationStore } from '@/features/typingTextVisualization'
+import { flexCol } from '@/shared/ui/layouts'
 
 const statsStore = useStatsStore()
 const visualStore = useVisualizationStore()
@@ -9,10 +10,7 @@ const statsArr = Object.entries(storeToRefs(statsStore))
 </script>
 
 <template>
-  <div
-    v-if="visualStore.typingIsOver"
-    class="flex flex-col items-center"
-  >
+  <flexCol v-if="visualStore.typingIsOver">
     <div class="px-4 sm:px-0">
       <h3 class="text-base font-semibold leading-7">Stats After Typing</h3>
     </div>
@@ -33,5 +31,5 @@ const statsArr = Object.entries(storeToRefs(statsStore))
         </div>
       </dl>
     </div>
-  </div>
+  </flexCol>
 </template>

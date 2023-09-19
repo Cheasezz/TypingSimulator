@@ -2,12 +2,13 @@
 import { BaseButton } from '@/shared/ui/baseButton'
 import { useSelectWordsNumber } from '../lib/composables/selectWordsNumber'
 import { arrWithWordsNumbers } from '../model/constants'
+import { flexCol } from '@/shared/ui/layouts'
 
 const { selectedWordsNumber, selectWordsNumber } = useSelectWordsNumber()
 </script>
 
 <template>
-  <div class="flex flex-col items-center gap-6 text-2xl">
+  <flexCol>
     <h1 class="text-lg">Choose words number</h1>
     <div class="flex gap-5">
       <BaseButton
@@ -22,5 +23,5 @@ const { selectedWordsNumber, selectWordsNumber } = useSelectWordsNumber()
         {{ number }}
       </BaseButton>
     </div>
-  </div>
+  </flexCol>
 </template>

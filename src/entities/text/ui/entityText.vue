@@ -2,6 +2,7 @@
 import { onBeforeMount, ref } from 'vue'
 import { useTextStore } from '../model/store'
 import { storeToRefs } from 'pinia'
+import { flexWrap } from '@/shared/ui/layouts'
 
 const textStore = useTextStore()
 const { wordsInSeparateChars, classObj, isLoaded } = storeToRefs(textStore)
@@ -18,7 +19,7 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-  <div class="w-5/6 flex flex-wrap relative">
+  <flexWrap>
     <span v-if="fetchErr">{{ fetchErr.message }}</span>
     <slot
       v-if="!isLoaded"
@@ -43,5 +44,5 @@ onBeforeMount(async () => {
         </kbd>
       </div>
     </template>
-  </div>
+  </flexWrap>
 </template>
